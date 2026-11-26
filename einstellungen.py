@@ -34,8 +34,9 @@ PRODUKT_REIHENFOLGE = ["T15", "T5", "T25", "T20", "HOODIE", "SCUBA SWEATSHIRT",
 # Größen in dieser Reihenfolge. Alles, was hier nicht steht, landet in "UNBEKANNT".
 GROESSEN = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL", "ONE SIZE"]
 
-# Verkaufskanal anhand der SKU-Endung (alles andere = "Shop")
-KANAL_SKU_ENDUNGEN = {"_AY": "About You"}
+# SKUs, die ignoriert werden. Ein Eintrag passt, wenn er ein eigener Teil der SKU ist
+# (getrennt durch _ oder -), z. B. "AY" passt auf T15_BLACK_S_AY (About-You-Varianten).
+SKU_AUSSCHLIESSEN = ["AY"]
 
 # Voreinstellungen beim Öffnen der Seite
 STANDARD_STANDORTE = ["Hauptstandort"]   # leer lassen = alle Standorte

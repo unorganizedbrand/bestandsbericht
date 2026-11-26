@@ -131,6 +131,9 @@ def aufbereiten(varianten):
         titel = (v["product"]["title"] or "").strip()
         if any(w in titel.upper() for w in cfg.AUSSCHLIESSEN):
             continue
+        sku = v.get("sku") or ""
+        if sku_ausgeschlossen(sku):
+            continue
         item = v.get("inventoryItem") or {}
         if not item.get("tracked"):
             continue
@@ -140,22 +143,24 @@ def aufbereiten(varianten):
         farbe = (farbe or rest or "–").upper()
         groesse = next((wert for name, wert in optionen.items() if name in GROESSEN_OPTIONEN), "ONE SIZE")
         groesse = normalisiere_groesse(groesse)
-        sku = v.get("sku") or ""
-        kanal = next((k for endung, k in cfg.KANAL_SKU_ENDUNGEN.items()
-                      if sku.upper().endswith(endung.upper())), "Shop")
 
         for lvl in item["inventoryLevels"]["nodes"]:
             mengen = {q["name"]: q["quantity"] for q in lvl["quantities"]}
             zeilen.append({
                 "produkt": produkt, "farbe": farbe, "groesse": groesse,
-                "titel": titel, "status": v["product"]["status"], "sku": sku, "kanal": kanal,
+                "titel": titel, "status": v["product"]["status"], "sku": sku,
                 "standort": lvl["location"]["name"],
                 "verfuegbar": mengen.get("available", 0) or 0,
                 "lagerbestand": mengen.get("on_hand", 0) or 0,
             })
-    spalten = ["produkt", "farbe", "groesse", "titel", "status", "sku", "kanal",
+    spalten = ["produkt", "farbe", "groesse", "titel", "status", "sku",
                "standort", "verfuegbar", "lagerbestand"]
     return pd.DataFrame(zeilen, columns=spalten)
+
+
+def sku_ausgeschlossen(sku):
+    teile = set(re.split(r"[_\-\s]+", sku.upper()))
+    return any(e.upper() in teile for e in cfg.SKU_AUSSCHLIESSEN)
 
 
 def kurzname(titel):
