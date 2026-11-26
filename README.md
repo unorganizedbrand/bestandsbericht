@@ -4,8 +4,9 @@ Live-Bestand aus Shopify als Matrix **Produkt × Farbe × Größe**, mit Filtern
 und PDF-Export im A4-Hochformat. Läuft auf Streamlit Community Cloud.
 
 - Daten werden automatisch alle 10 Minuten neu geladen, mit **🔄 Aktualisieren** sofort.
-- Filter: Produkte, Farben, Größen (je mit *Alle / Keine*), dazu Standort, Kanal (Shop / About You), Produktstatus, Verfügbar vs. Lagerbestand.
+- Filter: Produkte, Farben, Größen (je mit *Alle / Keine*), dazu Standort, Produktstatus, Verfügbar vs. Lagerbestand.
 - **📄 PDF exportieren** speichert genau die gefilterte Ansicht als A4-Hochformat.
+- SKUs mit `AY` (About-You-Varianten) werden komplett ignoriert.
 - Die App **liest nur** – sie ändert nichts in Shopify.
 
 ## Einrichtung (einmalig, ca. 15 Minuten)
@@ -44,7 +45,7 @@ Alles Wichtige steht in **`einstellungen.py`** (direkt in GitHub bearbeitbar, St
 | `KURZNAMEN` | Anzeigenamen, z. B. `("CHINO JOGGER", "CITY PANTS")` |
 | `AUSSCHLIESSEN` | Bundles/Boxen, die nicht in den Bericht sollen |
 | `PRODUKT_REIHENFOLGE` | Reihenfolge der Produkte |
-| `KANAL_SKU_ENDUNGEN` | SKU-Endung `_AY` = About You |
+| `SKU_AUSSCHLIESSEN` | SKUs mit `AY` (About You) werden ignoriert |
 | `STANDARD_STANDORTE` / `STANDARD_STATUS` | Voreinstellungen beim Öffnen |
 | `WARNSCHWELLE` | Bestände bis zu diesem Wert werden rot |
 | `AUTO_AKTUALISIERUNG_MINUTEN` | Automatisches Neuladen |

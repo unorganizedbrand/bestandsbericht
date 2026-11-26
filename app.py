@@ -92,10 +92,6 @@ with st.sidebar:
     std_standorte = [s for s in cfg.STANDARD_STANDORTE if s in standorte] or standorte
     sel_standorte = st.multiselect("Standort", standorte, default=std_standorte)
 
-    kanaele = sorted(df_alle["kanal"].unique())
-    sel_kanaele = st.multiselect("Kanal", kanaele, default=kanaele,
-                                 help="About You = Varianten mit SKU-Endung _AY")
-
     status_werte = [s for s in STATUS_LABEL if s in set(df_alle["status"])]
     sel_status = st.multiselect("Produktstatus", status_werte,
                                 default=[s for s in cfg.STANDARD_STATUS if s in status_werte],
@@ -107,7 +103,6 @@ with st.sidebar:
     pdf_platz = st.container()
 
 df_basis = df_alle[df_alle["standort"].isin(sel_standorte)
-                   & df_alle["kanal"].isin(sel_kanaele)
                    & df_alle["status"].isin(sel_status)]
 
 
@@ -209,7 +204,6 @@ else:
 
 # --------------------------------------------------------------------------- PDF
 filter_text = (f"{mengenart_label} · Standort: {', '.join(sel_standorte) or '–'} · "
-               f"Kanal: {', '.join(sel_kanaele) or '–'} · "
                f"Status: {', '.join(STATUS_LABEL.get(s, s) for s in sel_status) or '–'}")
 with pdf_platz:
     st.divider()
